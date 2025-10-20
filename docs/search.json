@@ -1,24 +1,150 @@
 [
   {
-    "objectID": "otherthing.html",
-    "href": "otherthing.html",
+    "objectID": "Quarto_to_Critique.html",
+    "href": "Quarto_to_Critique.html",
     "title": "otherthing",
     "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+    "text": "################################################; #Author: John Doe\n#Collaborators: NONE ;\n#Program Purpose: Homework 2 ; ################################################;"
   },
   {
-    "objectID": "otherthing.html#quarto",
-    "href": "otherthing.html#quarto",
+    "objectID": "Quarto_to_Critique.html#loading-read_excel-and-tidyverse",
+    "href": "Quarto_to_Critique.html#loading-read_excel-and-tidyverse",
     "title": "otherthing",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+    "section": "Loading read_excel and tidyverse",
+    "text": "Loading read_excel and tidyverse\n\nlibrary(tidyverse)\n\nWarning: package 'tidyverse' was built under R version 4.1.3\n\n\n-- Attaching packages --------------------------------------- tidyverse 1.3.1 --\n\n\nv ggplot2 3.5.1     v purrr   1.0.2\nv tibble  3.2.1     v dplyr   1.1.4\nv tidyr   1.3.1     v stringr 1.5.0\nv readr   2.1.2     v forcats 0.5.1\n\n\nWarning: package 'tibble' was built under R version 4.1.3\n\n\nWarning: package 'readr' was built under R version 4.1.3\n\n\nWarning: package 'stringr' was built under R version 4.1.3\n\n\nWarning: package 'forcats' was built under R version 4.1.3\n\n\n-- Conflicts ------------------------------------------ tidyverse_conflicts() --\nx dplyr::filter() masks stats::filter()\nx dplyr::lag()    masks stats::lag()\n\nlibrary(readxl)\n\nWarning: package 'readxl' was built under R version 4.1.3"
   },
   {
-    "objectID": "otherthing.html#running-code",
-    "href": "otherthing.html#running-code",
+    "objectID": "Quarto_to_Critique.html#reading-excel-package",
+    "href": "Quarto_to_Critique.html#reading-excel-package",
     "title": "otherthing",
-    "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+    "section": "Reading Excel Package",
+    "text": "Reading Excel Package\n\nmwvandes_beans &lt;-read_excel(\"Dry_Bean_Dataset.xlsx\")\nView(mwvandes_beans)"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#the-data-has-been-read-into-the-object-mwvandes_beans.-this-object-is-anexcel-file-that-has-9527-entries-variables-and-17-total-column-observations.",
+    "href": "Quarto_to_Critique.html#the-data-has-been-read-into-the-object-mwvandes_beans.-this-object-is-anexcel-file-that-has-9527-entries-variables-and-17-total-column-observations.",
+    "title": "otherthing",
+    "section": "The data has been read into the object ‘mwvandes_beans’. This object is anexcel file that has 9,527 entries variables and, 17 total column observations.",
+    "text": "The data has been read into the object ‘mwvandes_beans’. This object is anexcel file that has 9,527 entries variables and, 17 total column observations."
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#changing-the-data-set-to-remove-rename-filter-mutate-using-separate-mutatecalls-because-using-if_else-is-tricky-with-multiple-conditions.-using-case_when-would-work-however-i-am-having-trouble-using-that-form.-i-used-chatgpt-to-trouble-shoot-this-but-i-still-couldnt-figure-how-to-implement-if_else-and-arrange-using-the-dplyrdesc-function-the-variables.",
+    "href": "Quarto_to_Critique.html#changing-the-data-set-to-remove-rename-filter-mutate-using-separate-mutatecalls-because-using-if_else-is-tricky-with-multiple-conditions.-using-case_when-would-work-however-i-am-having-trouble-using-that-form.-i-used-chatgpt-to-trouble-shoot-this-but-i-still-couldnt-figure-how-to-implement-if_else-and-arrange-using-the-dplyrdesc-function-the-variables.",
+    "title": "otherthing",
+    "section": "Changing the Data Set to Remove, Rename, Filter, Mutate [Using separate ‘mutate()’calls because using ’if_else’ is tricky with multiple conditions. Using ‘case_when’ would work, however I am having trouble using that form. I used ChatGPT to trouble shoot this but I still couldn’t figure how to implement ‘if_else’], and Arrange (Using the dplyr::desc function) the variables.",
+    "text": "Changing the Data Set to Remove, Rename, Filter, Mutate [Using separate ‘mutate()’calls because using ’if_else’ is tricky with multiple conditions. Using ‘case_when’ would work, however I am having trouble using that form. I used ChatGPT to trouble shoot this but I still couldn’t figure how to implement ‘if_else’], and Arrange (Using the dplyr::desc function) the variables.\n\nmod_beans &lt;- mwvandes_beans %&gt;% select(-Area, -EquivDiameter) %&gt;% rename(LengthMaj = MajorAxisLength, LengthMin = MinorAxisLength) %&gt;% filter(Class %in% c(\"SIRA\", \"HOROZ\", \"SEKER\", \"BOMBAY\", \"CALI\")) %&gt;% mutate(AverageLength = (LengthMaj + LengthMin) / 2,    PerimeterCategory = case_when(\n           Perimeter &gt; 892.8536 ~ \"Largest\",\n           Perimeter &gt; 773.134 & Perimeter &lt;= 892.8536 ~ \"Middle\", TRUE ~ \"Lowest\")) %&gt;% arrange(Eccentricity = desc(Eccentricity))"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#creating-a-two-way-contigency-table-for-the-class-and-binned-variable-using-the-filter-and-table-functions",
+    "href": "Quarto_to_Critique.html#creating-a-two-way-contigency-table-for-the-class-and-binned-variable-using-the-filter-and-table-functions",
+    "title": "otherthing",
+    "section": "Creating a two way contigency table for the class and binned variable using the ‘filter()’ and ‘table()’ functions",
+    "text": "Creating a two way contigency table for the class and binned variable using the ‘filter()’ and ‘table()’ functions\n\nfiltered &lt;- mod_beans %&gt;%\n  filter(LengthMaj &lt; 432.5161)\ntable(filtered$Class, filtered$PerimeterCategory)\n\n        \n         Largest Lowest Middle\n  BOMBAY       1      0      0\n  CALI      1287      0      9\n  HOROZ     1283     57    553\n  SEKER       13   1705    309\n  SIRA        49    790   1797\n\n\n##The top left cell means the amount of observations where the ‘Class” category is ’Bombay’ and the ‘PermimetoryCategory’ is Largest."
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#summary-of-the-statistics-for-each-bean-using-the-dplyr-function-group_by-and-chaining-it-with-the-summarise-function",
+    "href": "Quarto_to_Critique.html#summary-of-the-statistics-for-each-bean-using-the-dplyr-function-group_by-and-chaining-it-with-the-summarise-function",
+    "title": "otherthing",
+    "section": "Summary of the statistics for each bean using the dplyr function ‘group_by’ and chaining it with the ‘summarise’ function",
+    "text": "Summary of the statistics for each bean using the dplyr function ‘group_by’ and chaining it with the ‘summarise’ function\n\nSummary_beans &lt;- mod_beans %&gt;% group_by(Class) %&gt;% summarise(Sample_Size = n(), Perimeter_5th = quantile(Perimeter, 0.05), Perimeter_Range = max(Perimeter)-min(Perimeter), Perimeter_Median = median(Perimeter), LengthMaj_5th = quantile(LengthMaj, 0.05), LengthMaj_Range = max(LengthMaj)-min(LengthMaj), LengthMaj_Median = median(LengthMaj))"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#for-example-in-the-bombay-bean-class-the-statistics-that-the-code-has-pulled-up-for-us-shows-the-measures-for-the-sample-size-perimeter-in-the-5th-percentile-the-perimeter-range-and-median-the-length-in-the-5th-percentile-and-the-range-and-median-of-the-length.-these-measures-help-us-understand-the-distribution-of-perimeter-and-lengthmaj.",
+    "href": "Quarto_to_Critique.html#for-example-in-the-bombay-bean-class-the-statistics-that-the-code-has-pulled-up-for-us-shows-the-measures-for-the-sample-size-perimeter-in-the-5th-percentile-the-perimeter-range-and-median-the-length-in-the-5th-percentile-and-the-range-and-median-of-the-length.-these-measures-help-us-understand-the-distribution-of-perimeter-and-lengthmaj.",
+    "title": "otherthing",
+    "section": "For example, in the Bombay bean class, the statistics that the code has pulled up for us shows the measures for the Sample Size, Perimeter in the 5th percentile, the Perimeter range and median, the Length in the 5th percentile and the range and median of the Length. These measures help us understand the distribution of ‘Perimeter’ and ‘LengthMaj’.",
+    "text": "For example, in the Bombay bean class, the statistics that the code has pulled up for us shows the measures for the Sample Size, Perimeter in the 5th percentile, the Perimeter range and median, the Length in the 5th percentile and the range and median of the Length. These measures help us understand the distribution of ‘Perimeter’ and ‘LengthMaj’."
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#open-ended",
+    "href": "Quarto_to_Critique.html#open-ended",
+    "title": "otherthing",
+    "section": "OPEN ENDED",
+    "text": "OPEN ENDED"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#i-chose-the-bank-marketingdataset-httpsarchive.ics.uci.edudataset222bankmarketing-because-of-my-interest-in-marketing.-i-was-in-spain-for-all-of-may-studying-marketing-and-really-enjoyed-it-so-this-dataset-caught-my-eye-when-i-was-scrolling-through-them.-marketing-data-is-also-very-fasciniating-because-of-all-the-different-variable-in-play.",
+    "href": "Quarto_to_Critique.html#i-chose-the-bank-marketingdataset-httpsarchive.ics.uci.edudataset222bankmarketing-because-of-my-interest-in-marketing.-i-was-in-spain-for-all-of-may-studying-marketing-and-really-enjoyed-it-so-this-dataset-caught-my-eye-when-i-was-scrolling-through-them.-marketing-data-is-also-very-fasciniating-because-of-all-the-different-variable-in-play.",
+    "title": "otherthing",
+    "section": "I chose the ’Bank Marketing’dataset “https://archive.ics.uci.edu/dataset/222/bank+marketing” because of my interest in Marketing. I was in Spain for all of May studying Marketing and really enjoyed it so this dataset caught my eye when I was scrolling through them. Marketing data is also very fasciniating because of all the different variable in play.",
+    "text": "I chose the ’Bank Marketing’dataset “https://archive.ics.uci.edu/dataset/222/bank+marketing” because of my interest in Marketing. I was in Spain for all of May studying Marketing and really enjoyed it so this dataset caught my eye when I was scrolling through them. Marketing data is also very fasciniating because of all the different variable in play."
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#loading-in-read_csv",
+    "href": "Quarto_to_Critique.html#loading-in-read_csv",
+    "title": "otherthing",
+    "section": "Loading in read_csv",
+    "text": "Loading in read_csv\n\nlibrary(readr)"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#reading-the-bank-marketing-data.-since-i-was-having-trouble-with-the-formatting-of-the-csv-file-r-kept-reading-the-headers-as-1-single-column.-i-went-on-the-stackoverflow-forums-and-used-that-data-to-create-my-own-code-to-reformat-the-csv-file-in-r",
+    "href": "Quarto_to_Critique.html#reading-the-bank-marketing-data.-since-i-was-having-trouble-with-the-formatting-of-the-csv-file-r-kept-reading-the-headers-as-1-single-column.-i-went-on-the-stackoverflow-forums-and-used-that-data-to-create-my-own-code-to-reformat-the-csv-file-in-r",
+    "title": "otherthing",
+    "section": "reading the bank marketing data. Since I was having trouble with the formatting of the CSV file (R kept reading the headers as 1 single column. I went on the Stackoverflow forums and used that data to create my own code to reformat the CSV file in R)",
+    "text": "reading the bank marketing data. Since I was having trouble with the formatting of the CSV file (R kept reading the headers as 1 single column. I went on the Stackoverflow forums and used that data to create my own code to reformat the CSV file in R)\n\nBank_Marketing &lt;- read_csv2(file = \"bank.csv\")\n\ni Using \"','\" as decimal and \"'.'\" as grouping mark. Use `read_delim()` for more control.\n\n\nRows: 4521 Columns: 17\n-- Column specification --------------------------------------------------------\nDelimiter: \";\"\nchr (10): job, marital, education, default, housing, loan, contact, month, p...\ndbl  (7): age, balance, day, duration, campaign, pdays, previous\n\ni Use `spec()` to retrieve the full column specification for this data.\ni Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nView(Bank_Marketing)"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#questions-about-the-data-set",
+    "href": "Quarto_to_Critique.html#questions-about-the-data-set",
+    "title": "otherthing",
+    "section": "Questions about the Data Set",
+    "text": "Questions about the Data Set"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#is-there-a-relationship-between-balance-and-housing",
+    "href": "Quarto_to_Critique.html#is-there-a-relationship-between-balance-and-housing",
+    "title": "otherthing",
+    "section": "1. Is there a relationship between ‘balance’ and ‘housing’?",
+    "text": "1. Is there a relationship between ‘balance’ and ‘housing’?"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#is-there-a-relationship-between-loan-and-marital-status",
+    "href": "Quarto_to_Critique.html#is-there-a-relationship-between-loan-and-marital-status",
+    "title": "otherthing",
+    "section": "2. Is there a relationship between ‘loan’ and ‘marital status’?",
+    "text": "2. Is there a relationship between ‘loan’ and ‘marital status’?"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#starting-with-question-1-we-will-pull-up-the-summary-for-balance-x-housing-status.-we-will-do-this-by-similarly-grouping-as-we-did-for-the-beans-summary.",
+    "href": "Quarto_to_Critique.html#starting-with-question-1-we-will-pull-up-the-summary-for-balance-x-housing-status.-we-will-do-this-by-similarly-grouping-as-we-did-for-the-beans-summary.",
+    "title": "otherthing",
+    "section": "Starting with question 1, we will pull up the summary for balance x housing status. We will do this by similarly grouping as we did for the beans summary.",
+    "text": "Starting with question 1, we will pull up the summary for balance x housing status. We will do this by similarly grouping as we did for the beans summary.\n\nbalance_x_housing_summary &lt;- Bank_Marketing %&gt;% group_by(housing) %&gt;% summarise(avg_balance = mean(balance, na.rm= TRUE), median_balance = median(balance, na.rm = TRUE))"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#to-get-a-boxplot-to-show-the-correlation-between-balance-and-housing-using-the-ggplot-function-and-in-that-the-subset-geom_boxplot",
+    "href": "Quarto_to_Critique.html#to-get-a-boxplot-to-show-the-correlation-between-balance-and-housing-using-the-ggplot-function-and-in-that-the-subset-geom_boxplot",
+    "title": "otherthing",
+    "section": "To get a boxplot to show the correlation between ‘balance’ and ‘housing’ using the ‘ggplot’ function and in that the subset ‘geom_boxplot’",
+    "text": "To get a boxplot to show the correlation between ‘balance’ and ‘housing’ using the ‘ggplot’ function and in that the subset ‘geom_boxplot’\n\nggplot(Bank_Marketing, aes( x = balance, y = housing)) + geom_boxplot() + labs(title = \"Balance by Housing Corelation\", x = \"Balance\", y = \"Housing\")"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#the-plot-showed-that-people-that-said-no-for-housing-tended-to-have-a-slightly-lower-balance-in-their-account-to-those-who-said-yes.-however-there-are-outliers-in-the-no-category-that-have-a-significantly-higher-acount-balance-than-those-who-said-yes.",
+    "href": "Quarto_to_Critique.html#the-plot-showed-that-people-that-said-no-for-housing-tended-to-have-a-slightly-lower-balance-in-their-account-to-those-who-said-yes.-however-there-are-outliers-in-the-no-category-that-have-a-significantly-higher-acount-balance-than-those-who-said-yes.",
+    "title": "otherthing",
+    "section": "The plot showed that people that said “no” for housing tended to have a slightly lower balance in their account to those who said “yes”. However there are outliers in the “no” category that have a significantly higher acount balance than those who said “yes”.",
+    "text": "The plot showed that people that said “no” for housing tended to have a slightly lower balance in their account to those who said “yes”. However there are outliers in the “no” category that have a significantly higher acount balance than those who said “yes”."
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#on-to-question-2.-we-will-create-a-contigency-table-similar-to-the-beans-to-show-the-marital-status-with-and-without-loans.",
+    "href": "Quarto_to_Critique.html#on-to-question-2.-we-will-create-a-contigency-table-similar-to-the-beans-to-show-the-marital-status-with-and-without-loans.",
+    "title": "otherthing",
+    "section": "On to question 2. We will create a contigency table similar to the beans to show the ‘marital status’ with and without ‘loans’.",
+    "text": "On to question 2. We will create a contigency table similar to the beans to show the ‘marital status’ with and without ‘loans’.\n\nloan_and_marital_table &lt;- table(Bank_Marketing$loan, Bank_Marketing$marital)\nView(loan_and_marital_table)"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#to-get-a-bargraph-to-show-the-correlation-for-each-variance-single-married-divorced-and-loan-status-we-will-use-the-ggplot-function-and-its-subset-geom_bar",
+    "href": "Quarto_to_Critique.html#to-get-a-bargraph-to-show-the-correlation-for-each-variance-single-married-divorced-and-loan-status-we-will-use-the-ggplot-function-and-its-subset-geom_bar",
+    "title": "otherthing",
+    "section": "To get a bargraph to show the correlation for each variance (single, married, divorced) and loan status, we will use the ‘ggplot’ function and its subset ‘geom_bar’",
+    "text": "To get a bargraph to show the correlation for each variance (single, married, divorced) and loan status, we will use the ‘ggplot’ function and its subset ‘geom_bar’\n\nggplot(Bank_Marketing, aes(x = marital, fill = loan)) + geom_bar(position = \"dodge\") + labs(title = \"Loans by Marital Status Distribution\", x = \"Marital Status\", y = \"Count\", fill = \"loan\")"
+  },
+  {
+    "objectID": "Quarto_to_Critique.html#with-the-bar-graph-that-we-just-made-we-can-see-that-there-really-is-no-correlation-between-marital-status-and-loans.-a-better-question-would-have-been-if-there-was-a-correlation-between-housing-and-marital-status-or-housing-and-loans",
+    "href": "Quarto_to_Critique.html#with-the-bar-graph-that-we-just-made-we-can-see-that-there-really-is-no-correlation-between-marital-status-and-loans.-a-better-question-would-have-been-if-there-was-a-correlation-between-housing-and-marital-status-or-housing-and-loans",
+    "title": "otherthing",
+    "section": "With the bar graph that we just made we can see that there really is no correlation between marital status and loans. A better question would have been if there was a correlation between housing and marital status or housing and loans",
+    "text": "With the bar graph that we just made we can see that there really is no correlation between marital status and loans. A better question would have been if there was a correlation between housing and marital status or housing and loans"
   },
   {
     "objectID": "file1.html",
@@ -40,5 +166,26 @@
     "title": "file1",
     "section": "Running Code",
     "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed).\nLink to other"
+  },
+  {
+    "objectID": "otherthing.html",
+    "href": "otherthing.html",
+    "title": "otherthing",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "otherthing.html#quarto",
+    "href": "otherthing.html#quarto",
+    "title": "otherthing",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "otherthing.html#running-code",
+    "href": "otherthing.html#running-code",
+    "title": "otherthing",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   }
 ]

@@ -1,0 +1,102 @@
+---
+title: "otherthing"
+format: html
+---
+
+################################################;
+#Author:   John Doe                                 
+#Collaborators:  NONE   ;                           
+#Program Purpose: Homework 2  ;
+################################################;
+
+## Loading read_excel and tidyverse
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+## Reading Excel Package
+
+```{r}
+mwvandes_beans <-read_excel("Dry_Bean_Dataset.xlsx")
+View(mwvandes_beans)
+```
+
+## The data has been read into the object 'mwvandes_beans'. This object is anexcel file that has 9,527 entries variables and, 17 total column observations.
+
+## Changing the Data Set to Remove, Rename, Filter, Mutate [Using separate 'mutate()'calls because using 'if_else' is tricky with multiple conditions. Using 'case_when' would work, however I am having trouble using that form. I used ChatGPT to trouble shoot this but I still couldn't figure how to implement 'if_else'], and Arrange (Using the dplyr::desc function) the variables. 
+
+```{r}
+mod_beans <- mwvandes_beans %>% select(-Area, -EquivDiameter) %>% rename(LengthMaj = MajorAxisLength, LengthMin = MinorAxisLength) %>% filter(Class %in% c("SIRA", "HOROZ", "SEKER", "BOMBAY", "CALI")) %>% mutate(AverageLength = (LengthMaj + LengthMin) / 2,    PerimeterCategory = case_when(
+           Perimeter > 892.8536 ~ "Largest",
+           Perimeter > 773.134 & Perimeter <= 892.8536 ~ "Middle", TRUE ~ "Lowest")) %>% arrange(Eccentricity = desc(Eccentricity))
+ 
+
+```
+
+## Creating a two way contigency table for the class and binned variable using the 'filter()' and 'table()' functions
+
+```{r}
+filtered <- mod_beans %>%
+  filter(LengthMaj < 432.5161)
+table(filtered$Class, filtered$PerimeterCategory)
+
+```
+
+##The top left cell means the amount of observations where the 'Class" category is 'Bombay' and the 'PermimetoryCategory' is Largest.
+
+## Summary of the statistics for each bean using the dplyr function 'group_by' and chaining it with the 'summarise' function
+
+```{r}
+Summary_beans <- mod_beans %>% group_by(Class) %>% summarise(Sample_Size = n(), Perimeter_5th = quantile(Perimeter, 0.05), Perimeter_Range = max(Perimeter)-min(Perimeter), Perimeter_Median = median(Perimeter), LengthMaj_5th = quantile(LengthMaj, 0.05), LengthMaj_Range = max(LengthMaj)-min(LengthMaj), LengthMaj_Median = median(LengthMaj)) 
+```
+
+## For example, in the Bombay bean class, the statistics that the code has pulled up for us shows the measures for the Sample Size, Perimeter in the 5th percentile, the Perimeter range and median, the Length in the 5th percentile and the range and median of the Length. These measures help us understand the distribution of 'Perimeter' and 'LengthMaj'.
+
+## OPEN ENDED
+
+## I chose the 'Bank Marketing'dataset "https://archive.ics.uci.edu/dataset/222/bank+marketing" because of my interest in Marketing. I was in Spain for all of May studying Marketing and really enjoyed it so this dataset caught my eye when I was scrolling through them. Marketing data is also very fasciniating because of all the different variable in play. 
+
+## Loading in read_csv
+
+```{r}
+library(readr)
+```
+
+## reading the bank marketing data. Since I was having trouble with the formatting of the CSV file (R kept reading the headers as 1 single column. I went on the Stackoverflow forums and used that data to create my own code to reformat the CSV file in R)
+
+```{r}
+Bank_Marketing <- read_csv2(file = "bank.csv")
+View(Bank_Marketing)
+
+```
+
+## Questions about the Data Set
+## 1. Is there a relationship between 'balance' and 'housing'?
+## 2. Is there a relationship between 'loan' and 'marital status'?
+
+## Starting with question 1, we will pull up the summary for balance x housing status. We will do this by similarly grouping as we did for the beans summary.
+
+```{r}
+balance_x_housing_summary <- Bank_Marketing %>% group_by(housing) %>% summarise(avg_balance = mean(balance, na.rm= TRUE), median_balance = median(balance, na.rm = TRUE))
+```
+
+## To get a boxplot to show the correlation between 'balance' and 'housing' using the 'ggplot' function and in that the subset 'geom_boxplot'
+```{r}
+ggplot(Bank_Marketing, aes( x = balance, y = housing)) + geom_boxplot() + labs(title = "Balance by Housing Corelation", x = "Balance", y = "Housing")
+```
+## The plot showed that people that said "no" for housing tended to have a slightly lower balance in their account to those who said "yes". However there are outliers in the "no" category that have a significantly higher acount balance than those who said "yes". 
+
+## On to question 2. We will create a contigency table similar to the beans to show the 'marital status' with and without 'loans'.
+```{r}
+loan_and_marital_table <- table(Bank_Marketing$loan, Bank_Marketing$marital)
+View(loan_and_marital_table)
+```
+
+## To get a bargraph to show the correlation for each variance (single, married, divorced) and loan status, we will use the 'ggplot' function and its subset 'geom_bar'
+```{r}
+ggplot(Bank_Marketing, aes(x = marital, fill = loan)) + geom_bar(position = "dodge") + labs(title = "Loans by Marital Status Distribution", x = "Marital Status", y = "Count", fill = "loan")
+```
+## With the bar graph that we just made we can see that there really is no correlation between marital status and loans. A better question would have been if there was a correlation between housing and marital status or housing and loans
+
